@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class LogInDetail {
-  @PrimaryColumn()
+  @Column()
   id: string;
 
   @Column()
@@ -11,7 +11,7 @@ export class LogInDetail {
   @Column()
   last_name: string;
 
-  @Column()
+  @PrimaryColumn()
   email: string;
 
   @Column()

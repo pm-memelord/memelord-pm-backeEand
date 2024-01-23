@@ -4,7 +4,7 @@ import { LogInService } from './login.services';
 import { LoginDto } from './entities/login.dto';
 import { LogInDetail } from './entities/login.entity';
 
-@ApiTags('User Details')
+@ApiTags('Register')
 @Controller('users')
 export class LogInDetailsController {
   constructor(private readonly userService: LogInService) {}
@@ -19,9 +19,9 @@ export class LogInDetailsController {
     return this.userService.findAll();
   }
 
-  @Delete(':id')
-  delete(@Param('id') id: string): Promise<void> {
-    return this.userService.delete(id);
+  @Delete(':email')
+  delete(@Param('email') email: string): Promise<void> {
+    return this.userService.delete(email);
   }
 
   @Get(':email')
