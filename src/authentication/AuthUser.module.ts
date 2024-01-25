@@ -8,7 +8,7 @@ import { ConfigModule } from "@nestjs/config";
 import { LogInDetail } from "src/login/entities/login.entity";
 import { LogInService } from "src/login/login.services";
 import { AuthUSerController } from "./authUser.controller";
-import { AuthUserService } from "./authStudent.service";
+import { AuthUserService } from "./authUser.service";
 
 @Module({
     imports:[
