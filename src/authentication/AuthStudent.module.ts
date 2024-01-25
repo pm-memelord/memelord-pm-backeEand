@@ -1,30 +1,29 @@
 import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
-import { AuthStudentService } from "./authStudent.service";
 import { LocalStrategy } from "./local.strategy";
 import { JwtStrategy } from "./jwt.strategy";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { AuthStudentController } from './authStudent.controller';
 import { ConfigModule } from "@nestjs/config";
-import { StudentModule } from "src/users/students/student.module";
-import { StudentService } from "src/users/students/student.service";
-import { StudentEntity } from "src/typeorm/entities/student.entity";
+import { LogInDetail } from "src/login/entities/login.entity";
+import { LogInService } from "src/login/login.services";
+import { AuthUSerController } from "./authUser.controller";
+import { AuthUserService } from "./authStudent.service";
 
 @Module({
     imports:[
         ConfigModule.forRoot(),
-        StudentModule,
+        LogInService,
         PassportModule,
-        TypeOrmModule.forFeature([StudentEntity]),
+        TypeOrmModule.forFeature([LogInDetail]),
         JwtModule.register({
             secret:process.env.SECRET,
             signOptions:{expiresIn:'300s'}
         })
 
     ],
-    providers:[AuthStudentService,LocalStrategy,StudentService,JwtStrategy],
-    controllers: [AuthStudentController],
-    exports : [AuthStudentService]
+    providers:[AuthUserService,LocalStrategy,AuthUserService,JwtStrategy],
+    controllers: [AuthUSerController],
+    exports : [AuthUserService]
 })
-export class AuthStudentModule{}
+export class AuthUserModule{}
