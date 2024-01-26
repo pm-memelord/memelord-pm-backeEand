@@ -24,7 +24,7 @@ export class LogInService {
     await this.loginRepository.delete(id);
   }
 
-  async findByEmail(email: string): Promise<LogInDetail | undefined> {
-    return this.loginRepository.findOne({ where: { email } });
+  async findByEmailAndPassword(email: string, password: string): Promise<LogInDetail | undefined> {
+    return this.loginRepository.findOne({ where: { email, password } });
   }
 }

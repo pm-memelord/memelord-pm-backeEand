@@ -1,19 +1,20 @@
 import { Injectable } from "@nestjs/common";
 import { sign } from "jsonwebtoken";
 import { LoginDto } from "./signIn.dto";
+import { LogInService } from "src/login/login.services";
 
 
 @Injectable()
 export class AuthUserService{
     constructor(
-                private userService: AuthUserService,
+                private userService: LogInService,
     ){}
 
-    async validateTeacher(Email: string, pass : string): Promise<any>{
-        const user = await this.userService.findByEmail(Email);
+    async validateUser(Email: string, pass : string): Promise<any>{
+        const user = await this.userService.findByEmailAndPassword(Email, pass);
         
-        if (user && user.Password === pass){
-            const { Password, ...result} = user;
+        if (user && user.password === pass){
+            const { password, ...result} = user;
             return result;
         }
 

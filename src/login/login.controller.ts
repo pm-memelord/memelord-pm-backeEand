@@ -24,8 +24,11 @@ export class LogInDetailsController {
     return this.userService.delete(email);
   }
 
-  @Get(':email')
-  findByEmail(@Param('email') email: string): Promise<LogInDetail | undefined> {
-    return this.userService.findByEmail(email);
+  @Get(':email/:password') // Update the route to include password as a parameter
+  findByEmailAndPassword(
+    @Param('email') email: string,
+    @Param('password') password: string,
+  ): Promise<LogInDetail | undefined> {
+    return this.userService.findByEmailAndPassword(email, password);
   }
 }
