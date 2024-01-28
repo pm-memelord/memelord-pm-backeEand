@@ -1,13 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsStrongPassword, MaxLength, MinLength } from 'class-validator';
-export class LoginDto {
-    @ApiProperty({
-        example: '2',
-        required: true
-    })
-    @IsNotEmpty()
-    readonly id: string;
+import { PrimaryGeneratedColumn } from 'typeorm';
 
+
+export class LoginDto {
+    @PrimaryGeneratedColumn()
+    id: number;
 
     @ApiProperty({
         example: 'Peter',
@@ -23,6 +21,11 @@ export class LoginDto {
     @IsNotEmpty()
     readonly last_name: string;
 
+    @ApiProperty({
+        example: 'Makaz',
+        required: true
+    })
+    readonly UserName: string;
 
     @ApiProperty({
         example: 'example@gmail.com',
@@ -41,5 +44,4 @@ export class LoginDto {
     @MaxLength(12)
     @IsNotEmpty()
     readonly password: string;
-
 }

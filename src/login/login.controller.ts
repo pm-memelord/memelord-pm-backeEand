@@ -29,6 +29,6 @@ export class LogInDetailsController {
     @Param('email') email: string,
     @Param('password') password: string,
   ): Promise<LogInDetail | undefined> {
-    return this.userService.findByEmailAndPassword(email, password);
+    return this.userService.findByEmail(email);
   }
 }

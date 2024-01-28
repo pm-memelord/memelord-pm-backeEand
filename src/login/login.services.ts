@@ -12,7 +12,8 @@ export class LogInService {
   ) {}
 
   async create(loginDto: LoginDto): Promise<LogInDetail> {
-    const user = this.loginRepository.create(loginDto);
+    const { id, ...loginDetailsWithoutId } = loginDto;
+    const user = this.loginRepository.create(loginDetailsWithoutId);
     return this.loginRepository.save(user);
   }
 
@@ -24,7 +25,7 @@ export class LogInService {
     await this.loginRepository.delete(id);
   }
 
-  async findByEmailAndPassword(email: string, password: string): Promise<LogInDetail | undefined> {
-    return this.loginRepository.findOne({ where: { email, password } });
+  async findByEmail(email: string): Promise<LogInDetail | undefined> {
+    return this.loginRepository.findOne({ where: { email } });
   }
 }

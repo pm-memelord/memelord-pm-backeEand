@@ -11,7 +11,7 @@ export class LogInDetail {
   @Column()
   last_name: string;
 
-  @PrimaryColumn()
+  @PrimaryColumn({ unique: true })
   email: string;
 
   @Column()
