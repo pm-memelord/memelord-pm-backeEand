@@ -1,31 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LogInDetail } from './entities/login.entity';
-import { LoginDto } from './entities/login.dto';
+import { UserEntity } from './entities/login.entity';
 
 @Injectable()
 export class LogInService {
   constructor(
-    @InjectRepository(LogInDetail)
-    private readonly loginRepository: Repository<LogInDetail>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async create(loginDto: LoginDto): Promise<LogInDetail> {
-    const { id, ...loginDetailsWithoutId } = loginDto;
-    const user = this.loginRepository.create(loginDetailsWithoutId);
-    return this.loginRepository.save(user);
+  async register(data: any): Promise<UserEntity> {
+    return this.userRepository.save(data);
   }
 
-  async findAll(): Promise<LogInDetail[]> {
-    return this.loginRepository.find();
+  async findAll(): Promise<UserEntity[]> {
+    return this.userRepository.find();
   }
 
   async delete(id: string): Promise<void> {
-    await this.loginRepository.delete(id);
+    await this.userRepository.delete(id);
   }
 
-  async findByEmail(email: string): Promise<LogInDetail | undefined> {
-    return this.loginRepository.findOne({ where: { email } });
+  async findOne(condition : any): Promise<UserEntity> {
+    return this.userRepository.findOne(condition);
   }
+
+  
 }

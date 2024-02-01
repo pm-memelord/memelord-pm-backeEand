@@ -1,34 +1,60 @@
-import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, Body, BadRequestException } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { LogInService } from './login.services';
+import * as bcrypt from 'bcrypt';
 import { LoginDto } from './entities/login.dto';
-import { LogInDetail } from './entities/login.entity';
+import { UserEntity } from './entities/login.entity';
+import path from 'path';
 
 @ApiTags('Register')
 @Controller('users')
 export class LogInDetailsController {
-  constructor(private readonly userService: LogInService) {}
+  constructor(private readonly userService: LogInService) { }
 
-  @Post()
-  create(@Body() userDto: LoginDto): Promise<LogInDetail> {
-    return this.userService.create(userDto);
+  @Post('SignUp')
+  async register(@Body() loginDto: LoginDto): Promise<UserEntity> {
+    const saltOrRounds = 10;
+    const hashedPassword = await bcrypt.hash(loginDto.password, saltOrRounds);
+    return this.userService.register({
+      first_name: loginDto.first_name,
+      last_name: loginDto.last_name,
+      user_name: loginDto.UserName,
+      email: loginDto.email,
+      hashedPassword,
+    });
   }
 
-  @Get()
-  findAll(): Promise<LogInDetail[]> {
+  @Get('GetAllUsers')
+  findAll(): Promise<UserEntity[]> {
     return this.userService.findAll();
   }
 
-  @Delete(':email')
+  @Delete('delete')
   delete(@Param('email') email: string): Promise<void> {
     return this.userService.delete(email);
   }
 
   @Get(':email/:password') // Update the route to include password as a parameter
-  findByEmailAndPassword(
+  findOne(
     @Param('email') email: string,
-    @Param('password') password: string,
-  ): Promise<LogInDetail | undefined> {
-    return this.userService.findByEmail(email);
+  ): Promise<any> {
+    return this.userService.findOne(email);
   }
+
+  @Post('login')
+  async login(
+    @Body('email') email: string,
+    @Body('password') password: string,
+  ) {
+    const user = await this.userService.findOne({ email });
+    if (!user) {
+      throw new BadRequestException('user not found');
+    }
+    if (!await bcrypt.compare(password, user.password)) {
+      throw new BadRequestException('The password did not match');
+    }
+    return user;
+  }
+
+
 }

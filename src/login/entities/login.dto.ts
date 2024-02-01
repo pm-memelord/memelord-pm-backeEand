@@ -4,7 +4,7 @@ import { PrimaryGeneratedColumn } from 'typeorm';
 
 
 export class LoginDto {
-    @PrimaryGeneratedColumn()
+    @IsNotEmpty()
     id: number;
 
     @ApiProperty({

@@ -1,7 +1,7 @@
 import {  Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { LogInDetail } from './login/entities/login.entity';
+import { UserEntity } from './login/entities/login.entity';
 import { LogInDetailsModule } from './login/login.modules';
 import { LogInDetailsController } from './login/login.controller';
 import { LogInService } from './login/login.services';
@@ -13,7 +13,7 @@ import { JwtService } from '@nestjs/jwt';
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(typeOrmConfig),
-    TypeOrmModule.forFeature([LogInDetail]),
+    TypeOrmModule.forFeature([UserEntity]),
     LogInDetailsModule,
 
     
