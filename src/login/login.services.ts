@@ -18,12 +18,12 @@ export class LogInService {
     return this.userRepository.find();
   }
 
-  async delete(id: string): Promise<void> {
-    await this.userRepository.delete(id);
+  async delete(email: string): Promise<void> {
+    await this.userRepository.delete(email);
   }
 
-  async findOne(condition : any): Promise<UserEntity> {
-    return this.userRepository.findOne(condition);
+  async findOne(email: string): Promise<UserEntity | undefined> {
+    return this.userRepository.findOne({ where: { email } });
   }
 
   
