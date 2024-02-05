@@ -3,6 +3,10 @@ import { IsEmail, IsNotEmpty, IsStrongPassword, MaxLength, MinLength } from 'cla
 
 
 export class LoginDto {
+    @ApiProperty({
+        example: '0',
+        required: true
+    })
     @IsNotEmpty()
     id: number;
 
@@ -24,6 +28,7 @@ export class LoginDto {
         example: 'Makaz',
         required: true
     })
+    @IsNotEmpty()
     readonly user_name: string;
 
     @ApiProperty({
@@ -38,6 +43,7 @@ export class LoginDto {
         example: 'password',
         required: true
     })
+    @IsNotEmpty()
     @IsStrongPassword()
     @MinLength(12)
     @MaxLength(12)

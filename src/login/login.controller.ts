@@ -13,13 +13,12 @@ export class LogInDetailsController {
   @Post('register')
   async register(@Body() loginDto: LoginDto): Promise<UserEntity> {
     const saltOrRounds = 10;
-    const hashedPassword = await bcrypt.hash(loginDto.password, saltOrRounds);
     return this.userService.register({
       first_name: loginDto.first_name,
       last_name: loginDto.last_name,
       user_name: loginDto.user_name,
       email: loginDto.email,
-      hashedPassword,
+      password : loginDto.password,
     });
   }
 
@@ -36,8 +35,9 @@ export class LogInDetailsController {
   @Get('findByEmail') // Update the route to include password as a parameter
   findOne(
     @Param('email') email: string,
+    @Param('email') password: string,
   ): Promise<any> {
-    return this.userService.findOne(email);
+    return this.userService.findOneUserByEmail(email,password);
   }
 
   @Post('login')
@@ -45,7 +45,7 @@ export class LogInDetailsController {
     @Body("email") email: string,
     @Body("password") password: string,
   ) {
-    const user = await this.userService.findOne(email);
+    const user = await this.userService.findOneUserByEmail(email,password);
     if (!user) {
       throw new BadRequestException('user not found');
     }

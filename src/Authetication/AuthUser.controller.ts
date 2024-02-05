@@ -1,21 +1,23 @@
-import { Body, Controller, Post, HttpCode, HttpStatus,Request, UseGuards, Get } from '@nestjs/common';
+import { Controller, Request,Post, UseGuards, Get, Body } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './AuthUser.service';
 import { SigninDto } from './signIn.dto';
-import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from './auth/auth.guard';
-@Controller('auth')
-@ApiTags('LogIn')
-export class AuthController {
-  constructor(private authService: AuthService) {}
-  @HttpCode(HttpStatus.OK)
-  @Post('login')
-  signIn(@Body() signIn: SigninDto) {
-    return this.authService.signIn(signIn.email, signIn.password);
-  }
 
-  @UseGuards(AuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
-  }
+@ApiTags('Authenticate')
+@Controller('auth')
+export class AuthController {
+    constructor(private  authService:AuthService){}
+
+    @ApiCreatedResponse({ description: 'logged in Succesfully' })
+    @ApiBadRequestResponse({
+        description:'unauthorized user'
+    })
+
+    @Post('login')    
+    async login(@Body() logindto: SigninDto){
+        return this.authService.login(logindto)
+        
+    }
+
+
 }

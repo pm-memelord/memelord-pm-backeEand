@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './entities/login.entity';
+import { LoginDto } from './entities/login.dto';
 
 @Injectable()
 export class LogInService {
@@ -22,9 +23,16 @@ export class LogInService {
     await this.userRepository.delete(email);
   }
 
-  async findOne(email: string): Promise<UserEntity | undefined> {
-    return this.userRepository.findOne({ where: { email } });
-  }
+  async findOneUserByEmail(email: string, password: string ):Promise<LoginDto | undefined> {
+        
+    return this.userRepository.findOne({
+        
+        where:{
+            email: email,
+            password: password
+        },
+    })
+}
 
   
 }

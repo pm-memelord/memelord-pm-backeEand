@@ -3,7 +3,7 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
 @Entity()
 export class UserEntity {
   @Column()
-  id: string;
+  id: number;
 
   @Column()
   first_name: string;
@@ -12,7 +12,7 @@ export class UserEntity {
   last_name: string;
 
   @Column()
-  username: string;
+  user_name: string;
 
   @PrimaryColumn({ unique: true })
   email: string;
